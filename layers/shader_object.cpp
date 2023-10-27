@@ -2632,6 +2632,7 @@ void InitLayerSettings(const VkInstanceCreateInfo* pCreateInfo, const VkAllocati
 
 static VKAPI_ATTR VkResult VKAPI_CALL CreateInstance(const VkInstanceCreateInfo* pCreateInfo,
                                                      const VkAllocationCallbacks* pAllocator, VkInstance* pInstance) {
+    printf("Create instance\n");
     auto allocator = pAllocator ? *pAllocator : kDefaultAllocator;
     auto chain_info = GetChainInfo(pCreateInfo, VK_LAYER_LINK_INFO);
     ASSERT(chain_info->u.pLayerInfo);
@@ -2901,6 +2902,7 @@ static VKAPI_ATTR VkResult VKAPI_CALL EnumerateDeviceExtensionProperties(VkPhysi
 
 static VKAPI_ATTR VkResult VKAPI_CALL CreateDevice(VkPhysicalDevice physicalDevice, const VkDeviceCreateInfo* pCreateInfo,
                                                    const VkAllocationCallbacks* pAllocator, VkDevice* pDevice) {
+    printf("Create device\n");
     auto  allocator            = pAllocator ? *pAllocator : kDefaultAllocator;
     auto  physical_device_data = physical_device_data_map.Get(physicalDevice);
     auto  instance_data        = physical_device_data->instance;

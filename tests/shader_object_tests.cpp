@@ -175,6 +175,7 @@ void ShaderObjectTest::SubmitAndWait() {
 
 TEST_F(ShaderObjectTest, VertFragShader) {
     TEST_DESCRIPTION("Test drawing with a vertex and fragment shader");
+    printf("Test drawing with a vertex and fragment shader\n");
     SetTargetApiVersion(VK_API_VERSION_1_1);
     if (!CheckShaderObjectSupportAndInitState()) {
         GTEST_SKIP() << kSkipPrefix << " shader object not supported, skipping test";
