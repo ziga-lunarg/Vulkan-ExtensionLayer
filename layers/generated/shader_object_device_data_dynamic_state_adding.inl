@@ -50,6 +50,12 @@ if (extended_dynamic_state_1_ptr && extended_dynamic_state_1_ptr->extendedDynami
 if (extended_dynamic_state_1_ptr && extended_dynamic_state_1_ptr->extendedDynamicState == VK_TRUE) {
     device_data->AddDynamicState(VK_DYNAMIC_STATE_STENCIL_TEST_ENABLE_EXT);
 }
+if (extended_dynamic_state_1_ptr) {
+    printf("extended_dynamic_state_1_ptr\n");
+if (extended_dynamic_state_1_ptr->extendedDynamicState) {
+    printf("extendedDynamicState enabled\n");
+}
+}
 if (extended_dynamic_state_1_ptr && extended_dynamic_state_1_ptr->extendedDynamicState == VK_TRUE) {
     device_data->AddDynamicState(VK_DYNAMIC_STATE_VERTEX_INPUT_BINDING_STRIDE_EXT);
 }

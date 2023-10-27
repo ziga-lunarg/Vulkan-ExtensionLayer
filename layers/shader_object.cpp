@@ -1241,6 +1241,9 @@ static VkResult CreatePipelineLayoutForShader(DeviceData const& deviceData, VkAl
 ComparableShader::ComparableShader(Shader *shader) : shader_(shader), id_(shader ? shader->id : 0) {}
 
 void DeviceData::AddDynamicState(VkDynamicState state) {
+    if (state == VK_DYNAMIC_STATE_VERTEX_INPUT_BINDING_STRIDE_EXT) {
+        printf("Adding dynamic state VK_DYNAMIC_STATE_VERTEX_INPUT_BINDING_STRIDE_EXT\n");
+    }
     ASSERT(dynamic_state_count < kMaxDynamicStates);
     dynamic_states[dynamic_state_count] = state;
     ++dynamic_state_count;
@@ -1913,6 +1916,10 @@ static VkPipeline CreateGraphicsPipelineForCommandBufferState(CommandBufferData&
     dynamic_state.sType = VK_STRUCTURE_TYPE_PIPELINE_DYNAMIC_STATE_CREATE_INFO;
     dynamic_state.dynamicStateCount = device_data.dynamic_state_count;
     dynamic_state.pDynamicStates = device_data.dynamic_states;
+    printf("Creating pipeline with %i dynamic states:\n", device_data.dynamic_state_count);
+    for (uint32_t i = 0; i < dynamic_state.dynamicStateCount; ++i){
+        printf("%i\n", (int)dynamic_state.pDynamicStates[i]);
+    }
 
     VkGraphicsPipelineCreateInfo create_info{};
     create_info.sType = VK_STRUCTURE_TYPE_GRAPHICS_PIPELINE_CREATE_INFO;
@@ -2697,6 +2704,7 @@ static VKAPI_ATTR VkResult VKAPI_CALL CreateInstance(const VkInstanceCreateInfo*
 
         for (uint32_t extension_idx = 0; extension_idx < property_count; ++extension_idx) {
             physical_device_datas[i].supported_additional_extensions |= AdditionalExtensionStringToFlag(extension_properties[extension_idx].extensionName);
+            printf("Supported additional extension: %s\n", extension_properties[extension_idx].extensionName);
         }
     }
     allocator.pfnFree(allocator.pUserData, extension_properties);
