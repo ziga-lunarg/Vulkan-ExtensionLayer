@@ -523,28 +523,115 @@ TEST_F(ShaderObjectTest, AllShadersDraw) {
         }
     )glsl";
 
-    static const char geomSource[] = R"glsl(
-        #version 450
-        layout(triangles) in;
-        layout(triangle_strip, max_vertices = 4) out;
+    const char* geomSource = R"(
+               OpCapability Geometry
+          %1 = OpExtInstImport "GLSL.std.450"
+               OpMemoryModel Logical GLSL450
+               OpEntryPoint Geometry %main "main" %_ %gl_in
+               OpExecutionMode %main Triangles
+               OpExecutionMode %main Invocations 1
+               OpExecutionMode %main OutputTriangleStrip
+               OpExecutionMode %main OutputVertices 4
 
-        void main(void)
-        {
-            gl_Position = gl_in[0].gl_Position;
-            gl_Position.y *= 1.5f;
-            gl_Position.z = 0.5f;
-            EmitVertex();
-            gl_Position = gl_in[1].gl_Position;
-            gl_Position.y *= 1.5f;
-            gl_Position.z = 0.5f;
-            EmitVertex();
-            gl_Position = gl_in[2].gl_Position;
-            gl_Position.y *= 1.5f;
-            gl_Position.z = 0.5f;
-            EmitVertex();
-            EndPrimitive();
-        }
-    )glsl";
+               ; Debug Information
+               OpSource GLSL 450
+               OpName %main "main"  ; id %4
+               OpName %gl_PerVertex "gl_PerVertex"  ; id %11
+               OpMemberName %gl_PerVertex 0 "gl_Position"
+               OpMemberName %gl_PerVertex 1 "gl_PointSize"
+               OpMemberName %gl_PerVertex 2 "gl_ClipDistance"
+               OpMemberName %gl_PerVertex 3 "gl_CullDistance"
+               OpName %_ ""  ; id %13
+               OpName %gl_PerVertex_0 "gl_PerVertex"  ; id %16
+               OpMemberName %gl_PerVertex_0 0 "gl_Position"
+               OpMemberName %gl_PerVertex_0 1 "gl_PointSize"
+               OpMemberName %gl_PerVertex_0 2 "gl_ClipDistance"
+               OpMemberName %gl_PerVertex_0 3 "gl_CullDistance"
+               OpName %gl_in "gl_in"  ; id %20
+
+               ; Annotations
+               OpMemberDecorate %gl_PerVertex 0 BuiltIn Position
+               OpMemberDecorate %gl_PerVertex 1 BuiltIn PointSize
+               OpMemberDecorate %gl_PerVertex 2 BuiltIn ClipDistance
+               OpMemberDecorate %gl_PerVertex 3 BuiltIn CullDistance
+               OpDecorate %gl_PerVertex Block
+               OpMemberDecorate %gl_PerVertex_0 0 BuiltIn Position
+               OpMemberDecorate %gl_PerVertex_0 1 BuiltIn PointSize
+               OpMemberDecorate %gl_PerVertex_0 2 BuiltIn ClipDistance
+               OpMemberDecorate %gl_PerVertex_0 3 BuiltIn CullDistance
+               OpDecorate %gl_PerVertex_0 Block
+
+               ; Types, variables and constants
+       %void = OpTypeVoid
+          %3 = OpTypeFunction %void
+      %float = OpTypeFloat 32
+    %v4float = OpTypeVector %float 4
+       %uint = OpTypeInt 32 0
+     %uint_1 = OpConstant %uint 1
+%_arr_float_uint_1 = OpTypeArray %float %uint_1
+%gl_PerVertex = OpTypeStruct %v4float %float %_arr_float_uint_1 %_arr_float_uint_1
+%_ptr_Output_gl_PerVertex = OpTypePointer Output %gl_PerVertex
+          %_ = OpVariable %_ptr_Output_gl_PerVertex Output
+        %int = OpTypeInt 32 1
+      %int_0 = OpConstant %int 0
+%gl_PerVertex_0 = OpTypeStruct %v4float %float %_arr_float_uint_1 %_arr_float_uint_1
+     %uint_3 = OpConstant %uint 3
+%_arr_gl_PerVertex_0_uint_3 = OpTypeArray %gl_PerVertex_0 %uint_3
+%_ptr_Input__arr_gl_PerVertex_0_uint_3 = OpTypePointer Input %_arr_gl_PerVertex_0_uint_3
+      %gl_in = OpVariable %_ptr_Input__arr_gl_PerVertex_0_uint_3 Input
+%_ptr_Input_v4float = OpTypePointer Input %v4float
+%_ptr_Output_v4float = OpTypePointer Output %v4float
+  %float_1_5 = OpConstant %float 1.5
+%_ptr_Output_float = OpTypePointer Output %float
+  %float_0_5 = OpConstant %float 0.5
+     %uint_2 = OpConstant %uint 2
+      %int_1 = OpConstant %int 1
+      %int_2 = OpConstant %int 2
+
+               ; Function main
+       %main = OpFunction %void None %3
+          %5 = OpLabel
+         %22 = OpAccessChain %_ptr_Input_v4float %gl_in %int_0 %int_0
+         %23 = OpLoad %v4float %22
+         %25 = OpAccessChain %_ptr_Output_v4float %_ %int_0
+               OpStore %25 %23
+         %28 = OpAccessChain %_ptr_Output_float %_ %int_0 %uint_1
+         %29 = OpLoad %float %28
+         %30 = OpFMul %float %29 %float_1_5
+         %31 = OpAccessChain %_ptr_Output_float %_ %int_0 %uint_1
+               OpStore %31 %30
+         %34 = OpAccessChain %_ptr_Output_float %_ %int_0 %uint_2
+               OpStore %34 %float_0_5
+               OpEmitVertex
+         %36 = OpAccessChain %_ptr_Input_v4float %gl_in %int_1 %int_0
+         %37 = OpLoad %v4float %36
+         %38 = OpAccessChain %_ptr_Output_v4float %_ %int_0
+               OpStore %38 %37
+         %39 = OpAccessChain %_ptr_Output_float %_ %int_0 %uint_1
+         %40 = OpLoad %float %39
+         %41 = OpFMul %float %40 %float_1_5
+         %42 = OpAccessChain %_ptr_Output_float %_ %int_0 %uint_1
+               OpStore %42 %41
+         %43 = OpAccessChain %_ptr_Output_float %_ %int_0 %uint_2
+               OpStore %43 %float_0_5
+               OpEmitVertex
+         %45 = OpAccessChain %_ptr_Input_v4float %gl_in %int_2 %int_0
+         %46 = OpLoad %v4float %45
+         %47 = OpAccessChain %_ptr_Output_v4float %_ %int_0
+               OpStore %47 %46
+         %48 = OpAccessChain %_ptr_Output_float %_ %int_0 %uint_1
+         %49 = OpLoad %float %48
+         %50 = OpFMul %float %49 %float_1_5
+         %51 = OpAccessChain %_ptr_Output_float %_ %int_0 %uint_1
+               OpStore %51 %50
+         %52 = OpAccessChain %_ptr_Output_float %_ %int_0 %uint_2
+               OpStore %52 %float_0_5
+               OpEmitVertex
+               OpEndPrimitive
+               OpReturn
+               OpFunctionEnd)";
+
+    std::vector<uint32_t> fs_spv;
 
     static const char fragSource[] = R"glsl(
         #version 460
@@ -558,11 +645,13 @@ TEST_F(ShaderObjectTest, AllShadersDraw) {
                                             VK_SHADER_STAGE_TESSELLATION_EVALUATION_BIT, VK_SHADER_STAGE_GEOMETRY_BIT,
                                             VK_SHADER_STAGE_FRAGMENT_BIT};
 
+    printf("Max geom output vertices: %u\n", m_device->props.limits.maxGeometryOutputVertices);
+
     std::vector<unsigned int> spv[5];
     GLSLtoSPV(&m_device->props.limits, VK_SHADER_STAGE_VERTEX_BIT, vertSource, spv[0], false, 0);
     GLSLtoSPV(&m_device->props.limits, VK_SHADER_STAGE_TESSELLATION_CONTROL_BIT, tescSource, spv[1], false, 0);
     GLSLtoSPV(&m_device->props.limits, VK_SHADER_STAGE_TESSELLATION_EVALUATION_BIT, teseSource, spv[2], false, 0);
-    GLSLtoSPV(&m_device->props.limits, VK_SHADER_STAGE_GEOMETRY_BIT, geomSource, spv[3], false, 0);
+    ASMtoSPV(SPV_ENV_VULKAN_1_0, 0, geomSource, spv[3]);
     GLSLtoSPV(&m_device->props.limits, VK_SHADER_STAGE_FRAGMENT_BIT, fragSource, spv[4], false, 0);
 
     VkShaderEXT shaders[5];
